@@ -1,20 +1,8 @@
 const router = require('express').Router();
 const { Category, Product } = require('../../models');
 
-// The `/api/categories` endpoint
 
-// GET all readers
-// router.get('/', async (req, res) => {
-//   try {
-//     const readerData = await Reader.findAll({
-//       // TODO: Add a comment describing the functionality of this property
-//       include: [{ model: LibraryCard }],
-//     });
-//     res.status(200).json(readerData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+
 
 router.get('/', async (req, res) => {
   try {
@@ -27,9 +15,6 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-// find all categories
-// be sure to include its associated Products
 
 
 router.get('/:id', async (req, res) => {
@@ -54,21 +39,25 @@ router.post('/', async (req, res) => {
 
 
 router.put('/:id', async (req, res) => {
-  // update a category by its `id` value
-  const updatedCategory = await Category.update(
-    {
-      id: req.body.id,
-      category_name: req.body.category_name,
-    },
-    {
-      where: {
-        id: req.params.id,
-      },
+  try {
+    const updatedCategory = await Category.update(req.body, {
+        where: {
+          id: req.params.id,
+        },
+      });
+    if (!updatedCategory) {
+      res.status(404).json({ message: 'no category with that id' });
+      return;
     }
-  );
 
-  return res.json(updatedCategory);
+    res.status(200).json(updatedCategory);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
+
+// return res.json(updatedCategory);
+// });
 
 router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
