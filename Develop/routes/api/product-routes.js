@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     const Products = await Product.findAll({
       include: [
         { model: Category },
-        
+        // add above model: Category, ProductTag, Tags },... i think they call go in one {curlyboi}
       ],
     });
     res.status(200).json(Products);
@@ -25,10 +25,20 @@ router.get('/', async (req, res) => {
 // be sure to include its associated Category and Tag data
 //SEE 13-22 ROUTES/API/LIBRARYCARDROUTES.JS FOR AN EXMAPLE OF TACKING LIBRARY CARD MODEL ONTO THE RETURN FOR READER MODEL 
 // get one product
-router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+router.get('/:id', async (req, res) => {
+  try {
+    const oneProduct = await Product.findByPk(req.params.id);
+    if (!oneProduct) {
+      res.status(404).json({ message: 'no product with that id;' });
+      return;
+    }
+    res.status(200).json(oneProduct);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
+// find a single product by its `id`
+// be sure to include its associated Category and Tag data
 
 // create new product
 router.post('/', (req, res) => {

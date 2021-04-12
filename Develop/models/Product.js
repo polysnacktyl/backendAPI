@@ -37,13 +37,7 @@ Product.init(
         key: 'id',
       },
     },
-    // category_name: {
-    //   type: DataTypes.STRING,
-    //   references: {
-    //     model: 'category',
-    //     key: 'category_name',
-    //   },
-    // },
+
   },
 
   {
