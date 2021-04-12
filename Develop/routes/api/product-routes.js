@@ -1,14 +1,29 @@
 const router = require('express').Router();
-const { Product, Category, Tag, ProductTag } = require('../../models');
+const { Product, Category, Tag, ProductTag, } = require('../../models');
 
 // The `/api/products` endpoint
 
 // get all products
-router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+router.get('/', async (req, res) => {
+  try {
+    const Products = await Product.findAll({
+      include: [
+        { model: Category },
+        
+      ],
+    });
+    res.status(200).json(Products);
+
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
+// return res.json(Products, Categories, ProductTags);
+
+// find all products
+// be sure to include its associated Category and Tag data
+//SEE 13-22 ROUTES/API/LIBRARYCARDROUTES.JS FOR AN EXMAPLE OF TACKING LIBRARY CARD MODEL ONTO THE RETURN FOR READER MODEL 
 // get one product
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
