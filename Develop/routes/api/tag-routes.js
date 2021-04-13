@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
-  // be sure to include its associated Product data
+// be sure to include its associated Product data
 
 
 router.post('/', async (req, res) => {
@@ -43,8 +43,21 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
-  // update a tag's name by its `id` value
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedTag = await Tag.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!updatedTag) {
+      res.status(400).json({ message: 'no tag with that id' });
+      return;
+    }
+    res.status(200).json(updatedTag);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.delete('/:id', (req, res) => {
