@@ -13,7 +13,6 @@ Initiate schema in Workbench:
 
 DROP DATABASE IF EXISTS ecommerce_db;
 CREATE DATABASE ecommerce_db; 
-:zap:
 ```
 ```
 node seeds/index.js
