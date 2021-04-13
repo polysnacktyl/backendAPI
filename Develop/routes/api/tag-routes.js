@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const { Tag, Product, ProductTag, } = require('../../models');
 
-// The `/api/tags` endpoint
-
 router.get('/', async (req, res) => {
   try {
     const Tags = await Tag.findAll({
@@ -30,7 +28,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 // be sure to include its associated Product data
-
 
 router.post('/', async (req, res) => {
   try {
@@ -61,7 +58,6 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  // delete one product by its `id` value
   try {
     const byeTag = await Tag.destroy({
       where: {
@@ -69,15 +65,13 @@ router.delete('/:id', async (req, res) => {
       },
     });
     if (!byeTag) {
-      res.status(404).json({ message: 'no tag with that id'});
+      res.status(404).json({ message: 'no tag with that id' });
       return;
     }
-
-      res.status(200).json(byeTag);
+    res.status(200).json(byeTag);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 
 module.exports = router;

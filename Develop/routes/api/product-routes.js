@@ -2,18 +2,11 @@ const router = require('express').Router();
 const { Product, Category, Tag, ProductTag, } = require('../../models');
 // const { restore } = require('../../models/Product');
 
-// The `/api/products` endpoint
-
-// get all products
-// return res.json(Products, Categories, ProductTags);
-// find all products
-// be sure to include its associated Category and Tag data
 router.get('/', async (req, res) => {
   try {
     const Products = await Product.findAll({
       include: [
-        { model: Category },
-        // add above model: Category, ProductTag, Tags },... i think they call go in one {curlyboi}
+        { model: Category, Tag, ProductTag },
       ],
     });
     res.status(200).json(Products);
@@ -45,7 +38,7 @@ router.post('/', async (req, res) => {
       product_name: req.body.product_name,
       price: req.body.price,
       stock: req.body.stock,
-      // tagIds: req.body.tagIds
+      tagIds: req.body.tagIds
     });
     res.status(200).json(product);
   } catch (err) {
